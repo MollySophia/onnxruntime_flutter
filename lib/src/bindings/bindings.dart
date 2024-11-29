@@ -20,7 +20,11 @@ final DynamicLibrary _dylib = () {
   }
 
   if (Platform.isLinux) {
-    return DynamicLibrary.open('libonnxruntime.so.1.15.1');
+    if (Abi.current() == Abi.linuxArm64) {
+      return DynamicLibrary.open('libonnxruntime_aarch64.so.1.15.1');
+    } else {
+      return DynamicLibrary.open('libonnxruntime.so.1.15.1');
+    }
   }
 
   throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
